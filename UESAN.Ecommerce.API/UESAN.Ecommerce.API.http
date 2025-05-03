@@ -1,0 +1,6 @@
+@UESAN.Ecommerce.API_HostAddress = http://localhost:5117
+
+GET {{UESAN.Ecommerce.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
