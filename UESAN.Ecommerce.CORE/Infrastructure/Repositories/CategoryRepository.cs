@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using UESAN.Ecommerce.CORE.Core.Entities;
+using UESAN.Ecommerce.CORE.Core.Interfaces;
 using UESAN.Ecommerce.CORE.Infrastructure.Data;
 
 namespace UESAN.Ecommerce.CORE.Infrastructure.Repositories
 {
-    public class CategoryRepository
+    public class CategoryRepository : ICategoryRepository
     {
         private readonly StoreDbContext _context;
 
@@ -28,7 +29,7 @@ namespace UESAN.Ecommerce.CORE.Infrastructure.Repositories
             return categories;
         }
 
-        public async Task<IEnumerable<Category>> GetAllCategoriesAsync() 
+        public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
         {
             return await _context.Category
                             .Where(x => x.IsActive == true)
@@ -71,6 +72,21 @@ namespace UESAN.Ecommerce.CORE.Infrastructure.Repositories
                 _context.Category.Update(category);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        //Update category
+        public async Task<bool> UpdateCategory(Category category)
+        {
+            bool result = false;
+            var existingCategory = await _context.Category.FindAsync(category.Id);
+            if (existingCategory != null)
+            {
+                existingCategory.Description = category.Description;
+                _context.Category.Update(existingCategory);
+                await _context.SaveChangesAsync();
+                result = true;
+            }
+            return result;
         }
 
     }
