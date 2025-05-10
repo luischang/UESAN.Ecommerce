@@ -39,7 +39,10 @@ namespace UESAN.Ecommerce.CORE.Infrastructure.Repositories
         // Get category by id async
         public async Task<Category> GetCategoryByIdAsync(int id)
         {
-            var category = await _context.Category.FindAsync(id);
+            var category = await _context
+                            .Category
+                            .Where(x => x.IsActive == true && x.Id == id)
+                            .FirstOrDefaultAsync();
             return category;
         }
 
