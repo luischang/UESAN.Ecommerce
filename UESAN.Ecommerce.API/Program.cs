@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using UESAN.Ecommerce.CORE.Core.Interfaces;
+using UESAN.Ecommerce.CORE.Core.Services;
 using UESAN.Ecommerce.CORE.Infrastructure.Data;
 using UESAN.Ecommerce.CORE.Infrastructure.Repositories;
 
@@ -13,7 +14,12 @@ builder.Services.AddDbContext<StoreDbContext>(options =>
     options.UseSqlServer(_connectionString));
 //TODO: Add interfaces
 builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
-
+builder.Services.AddTransient<IProductRepository, ProductRepository>();
+builder.Services.AddTransient<IProductService, ProductService>();
+builder.Services.AddTransient<IOrdersRepository, OrdersRepository>();
+builder.Services.AddTransient<IOrdersService, OrdersService>();
+builder.Services.AddTransient<IFavoriteRepository, FavoriteRepository>();
+builder.Services.AddTransient<IFavoriteService, FavoriteService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
