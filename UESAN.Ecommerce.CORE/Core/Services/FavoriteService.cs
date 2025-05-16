@@ -15,33 +15,63 @@ namespace UESAN.Ecommerce.CORE.Core.Services
             _favoriteRepository = favoriteRepository;
         }
 
-        public async Task<IEnumerable<FavoriteDTO>> GetAllFavoritesAsync()
+        public async Task<IEnumerable<FavoriteDetailDTO>> GetAllFavoritesAsync()
         {
             var favorites = await _favoriteRepository.GetAllFavoritesAsync();
-            var result = new List<FavoriteDTO>();
+            var result = new List<FavoriteDetailDTO>();
             foreach (var f in favorites)
             {
-                result.Add(new FavoriteDTO
+                result.Add(new FavoriteDetailDTO
                 {
                     Id = f.Id,
-                    UserId = f.UserId,
-                    ProductId = f.ProductId,
-                    CreatedAt = f.CreatedAt
+                    CreatedAt = f.CreatedAt,
+                    Product = f.Product == null ? null : new FavoriteProductDTO
+                    {
+                        Id = f.Product.Id,
+                        Description = f.Product.Description,
+                        ImageUrl = f.Product.ImageUrl,
+                        Price = f.Product.Price,
+                        Stock = f.Product.Stock,
+                        Discount = f.Product.Discount,
+                        CategoryId = f.Product.CategoryId
+                    },
+                    User = f.User == null ? null : new FavoriteUserDTO
+                    {
+                        Id = f.User.Id,
+                        FirstName = f.User.FirstName,
+                        LastName = f.User.LastName,
+                        Email = f.User.Email
+                    }
                 });
             }
             return result;
         }
 
-        public async Task<FavoriteDTO> GetFavoriteByIdAsync(int id)
+        public async Task<FavoriteDetailDTO> GetFavoriteByIdAsync(int id)
         {
             var f = await _favoriteRepository.GetFavoriteByIdAsync(id);
             if (f == null) return null;
-            return new FavoriteDTO
+            return new FavoriteDetailDTO
             {
                 Id = f.Id,
-                UserId = f.UserId,
-                ProductId = f.ProductId,
-                CreatedAt = f.CreatedAt
+                CreatedAt = f.CreatedAt,
+                Product = f.Product == null ? null : new FavoriteProductDTO
+                {
+                    Id = f.Product.Id,
+                    Description = f.Product.Description,
+                    ImageUrl = f.Product.ImageUrl,
+                    Price = f.Product.Price,
+                    Stock = f.Product.Stock,
+                    Discount = f.Product.Discount,
+                    CategoryId = f.Product.CategoryId
+                },
+                User = f.User == null ? null : new FavoriteUserDTO
+                {
+                    Id = f.User.Id,
+                    FirstName = f.User.FirstName,
+                    LastName = f.User.LastName,
+                    Email = f.User.Email
+                }
             };
         }
 
