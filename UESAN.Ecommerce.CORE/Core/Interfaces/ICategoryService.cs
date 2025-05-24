@@ -1,6 +1,6 @@
 ﻿using UESAN.Ecommerce.CORE.Core.DTOs;
 
-namespace UESAN.Ecommerce.CORE.Core.Services
+namespace UESAN.Ecommerce.CORE.Core.Interfaces
 {
     public interface ICategoryService
     {
