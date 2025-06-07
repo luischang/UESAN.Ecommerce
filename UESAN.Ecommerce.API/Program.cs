@@ -28,6 +28,22 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddSharedInfrastructure(_configuration);
 
 builder.Services.AddControllers();
+// Add Cors policy
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        var frontendUrl = _configuration.GetValue<string>("FrontendUrl");
+        builder//WithOrigins(frontendUrl)
+               .AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
+
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
@@ -40,6 +56,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
+app.UseCors();
 
 app.MapControllers();
 
