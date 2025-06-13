@@ -42,7 +42,8 @@ builder.Services.AddCors(options =>
     });
 });
 
-
+// Add HttpClient for GeminiController
+builder.Services.AddHttpClient();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
